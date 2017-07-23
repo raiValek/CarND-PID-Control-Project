@@ -10,6 +10,11 @@ public:
   double i_error;
   double d_error;
 
+  double CTE_sum;
+  double last_CTE;
+
+  bool firstMeasurement;
+
   /*
   * Coefficients
   */ 
@@ -35,7 +40,7 @@ public:
   /*
   * Update the PID error variables given cross track error.
   */
-  void UpdateError(double cte);
+  void UpdateError(double CTE);
 
   /*
   * Calculate the total PID error.
