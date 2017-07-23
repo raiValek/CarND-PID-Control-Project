@@ -3,6 +3,30 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Introduction
+
+The goal of this project is to control the steering of a simulated vehicle with a PID controller. The [simulator](https://github.com/udacity/self-driving-car-sim/releases) provides the velocity and cross track error (cte) of the vehicle in order to compute the right steering angles.
+
+## Approach
+
+The usual way to regulate all kinds of real and virtual mechanism is to use a PID controller. For each timestep it needs the current error of the quantity one wants to control. If the subject to control is the cte, the input error is the cte itself, because the desired value of cte is zero. If the velocity is controlled, the input error is the difference between the current velocity and the desired velocity. The controller processes the input and adds the result to the corrective action, like the steering in case of the cte or the throttle in case of the velocity.
+
+In this project PID controllers are used to control the velocity and the steering.
+
+The PID controller consists of three components:
+
+__The P-Component__ multiplies the error with a constant factor __Kp__ and adds the result to the corrective action. This component is time invariant and reacts immediately. The P controller alone will never reach the desired control value and tends to oscillate.
+
+__The I-Component__ multiplies the integral of the error with a constant factor __Ki__ and adds the result to the corrective action. The I controller is a slow but precise controller, and it will reach the final control value after some time. A controller with an I component can compensate systematic bias of the corrective action.
+
+__The D-Component__ multiplies the differential of the error with a constant factor __Kd__ and adds the result to the corrective action. The D controller doesn't react to the magnitude of the error itself but to the magnitude of the change of the error. Therefore a D component cannot be used alone, since a constant error would not be corrected. However, the D component can eliminate oscillations caused by the P controller.
+
+In order to find usable coefficients for the controllers, I started with just a P controller and a small proportional factor to see how it reacts. It turned out, that for the velocity controller a P controller is enough. The vehicle keeps a very small error beyond the desired velocity but behaves quiet responsive with a _Kp_ of 2.0. The cte controller cannot work with a P controller alone. I found a _Kp_ of 0.15 suitable although it keeps crashing after a while. I have added an I component to reduce the oscillation. An _Kd_ of 6.0 seem to add stability while keeping the system responsive enough to react to sharp turns. I have not achieved any benefits with the I component, hence the _Ki_ factor is zero in both controllers.
+
+Please find a video of the simulation with a desired veolocity of 60 mph.
+
+[![Alt text](https://img.youtube.com/vi/BRMzkA-LSgw/0.jpg)](https://www.youtube.com/watch?v=BRMzkA-LSgw)
+
 ## Dependencies
 
 * cmake >= 3.5
